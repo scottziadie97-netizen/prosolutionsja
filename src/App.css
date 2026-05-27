@@ -1842,6 +1842,26 @@ body {
     right: 12px !important;
     bottom: 12px !important;
   }
+}/* FIX MOBILE PROFESSIONAL TEXT CUT OFF */
+
+@media(max-width: 768px){
+
+  .hero h2{
+    display: block !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    word-break: keep-all !important;
+    letter-spacing: 3px !important;
+    font-size: 0.75rem !important;
+    text-align: center !important;
+  }
+
+  .overlay{
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: visible !important;
+  }
 }
 
 
