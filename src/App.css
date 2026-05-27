@@ -1862,6 +1862,18 @@ body {
     max-width: 100% !important;
     overflow: visible !important;
   }
+}/* FINAL MOBILE HERO TEXT FIX */
+
+@media(max-width: 768px){
+
+  .hero h2{
+    font-size: 0.65rem !important;
+    letter-spacing: 1.5px !important;
+    width: auto !important;
+    max-width: 100% !important;
+    padding: 0 10px !important;
+    line-height: 1.3 !important;
+  }
 }
 
 
