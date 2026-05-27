@@ -1541,5 +1541,83 @@ body {
   to {
     transform: translateX(-50%);
   }
+}/* MOBILE POLISH FIX */
+
+@media(max-width: 768px) {
+
+  body {
+    cursor: auto;
+  }
+
+  .custom-cursor,
+  .mouse-glow,
+  .particles {
+    display: none;
+  }
+
+  .navbar {
+    padding: 1rem 5%;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+  }
+
+  .hero {
+    padding: 7rem 1.5rem 4rem;
+    min-height: 100vh;
+  }
+
+  .hero h2 {
+    font-size: 0.9rem;
+    letter-spacing: 4px;
+    margin-bottom: 0;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  section {
+    padding: 4rem 1.2rem;
+  }
+
+  section h2 {
+    font-size: 2rem;
+  }
+
+  .service-grid,
+  .pricing-grid,
+  .packages-grid,
+  .testimonials-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .portfolio-card {
+    min-width: 260px;
+    max-width: 260px;
+  }
+
+  .portfolio-card img {
+    height: 340px;
+  }
+
+  .testimonial-card {
+    min-width: 280px;
+    max-width: 280px;
+  }
+
+  .floating-whatsapp {
+    bottom: 15px;
+    right: 15px;
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+  }
 }
 
