@@ -1619,5 +1619,9 @@ body {
     padding: 0.8rem 1rem;
     font-size: 0.85rem;
   }
+}@media(max-width: 768px) {
+  .hero h1 {
+    color: red !important;
+  }
 }
 
