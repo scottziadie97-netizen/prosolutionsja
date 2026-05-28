@@ -1921,6 +1921,55 @@ body {
 
     color: #d4af37 !important;
   }
+}/* MODERN MOBILE NAV */
+
+@media(max-width:768px){
+
+  .nav-links{
+
+    position: fixed;
+
+    top: 80px;
+    right: -100%;
+
+    width: 260px;
+
+    height: auto;
+
+    background:
+      rgba(10,10,10,0.95);
+
+    backdrop-filter: blur(15px);
+
+    flex-direction: column;
+
+    padding: 2rem;
+
+    border-radius: 20px 0 0 20px;
+
+    transition: 0.35s ease;
+
+    box-shadow:
+      0 0 40px rgba(0,0,0,0.45);
+
+    z-index: 9999;
+  }
+
+  .nav-links.active{
+    right: 0;
+  }
+
+  .nav-links li{
+    margin: 1rem 0;
+  }
+
+  .nav-links a{
+    font-size: 1.1rem;
+  }
+
+  .hamburger{
+    cursor: pointer;
+  }
 }
 
 

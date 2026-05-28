@@ -19,6 +19,7 @@ function App() {
    const [showModal, setShowModal] = useState(false);
    const [loading, setLoading] = useState(true);
    const [selectedImage, setSelectedImage] = useState(null);
+   const [menuOpen, setMenuOpen] = useState(false);
 
 const [projects, setProjects] = useState(0);
 const [clients, setClients] = useState(0);
@@ -162,10 +163,30 @@ useEffect(() => {
 
     window.addEventListener('mousemove', moveMouse);
 
-    return () => {
-        window.removeEventListener('mousemove', moveMouse);
-    };
+const closeMenu = (e) => {
 
+    if (
+        !e.target.closest('.nav-links') &&
+        !e.target.closest('.hamburger')
+    ) {
+        setMenuOpen(false);
+    }
+};
+
+window.addEventListener('click', closeMenu);
+
+    return () => {
+
+    window.removeEventListener(
+        'mousemove',
+        moveMouse
+    );
+
+    window.removeEventListener(
+        'click',
+        closeMenu
+    );
+};
 }, []);
 
     return (
@@ -217,17 +238,15 @@ useEffect(() => {
                     ProSolutionsJA
                 </h1>
 
-                <input type="checkbox" id="menu-toggle" />
-
-                <label
-                    htmlFor="menu-toggle"
-                    className="hamburger"
-                >
-                    ☰
-                </label>
-
-                <ul className="nav-links">
-
+                <div
+    className="hamburger"
+    onClick={() =>
+        setMenuOpen(!menuOpen)
+    }
+>
+    ☰
+</div>
+                <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
                     <li><a href="#home">Home</a></li>
 
                     <li><a href="#services">Services</a></li>
