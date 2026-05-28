@@ -1970,6 +1970,24 @@ body {
   .hamburger{
     cursor: pointer;
   }
+}/* FORCE MOBILE MENU TO WORK */
+
+@media(max-width:768px){
+
+  .hamburger{
+    display: block !important;
+    z-index: 10000 !important;
+    color: #d4af37 !important;
+  }
+
+  .nav-links{
+    display: flex !important;
+    right: -100% !important;
+  }
+
+  .nav-links.active{
+    right: 0 !important;
+  }
 }
 
 
