@@ -1896,6 +1896,31 @@ body {
 
     margin: 0 auto !important;
   }
+}/* TRUE FINAL MOBILE PROFESSIONAL FIX */
+
+@media(max-width: 768px){
+
+  .hero h2{
+    position: static !important;
+    left: auto !important;
+    transform: none !important;
+
+    display: block !important;
+
+    width: 100% !important;
+    max-width: 100% !important;
+
+    font-size: 0.65rem !important;
+    letter-spacing: 1px !important;
+
+    text-align: center !important;
+    white-space: normal !important;
+
+    margin: 0 auto 0.2rem auto !important;
+    padding: 0 !important;
+
+    color: #d4af37 !important;
+  }
 }
 
 
