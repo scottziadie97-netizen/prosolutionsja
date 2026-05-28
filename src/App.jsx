@@ -1,7 +1,6 @@
 import './App.css';
 
-import { useEffect, useRef, useState } from 'react'
-
+import { useEffect, useRef, useState } from 'react';
 import emailjs from '@emailjs/browser';
 
 import championsleague from './assets/championsleague.png';
@@ -11,114 +10,117 @@ import wedding from './assets/wedding.png';
 import resume from './assets/resume.png';
 import portfolio from './assets/portfolio.png';
 
-
 function App() {
-
     const form = useRef();
 
-   const [showModal, setShowModal] = useState(false);
-   const [loading, setLoading] = useState(true);
-   const [selectedImage, setSelectedImage] = useState(null);
-   const [menuOpen, setMenuOpen] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [selectedImage, setSelectedImage] = useState(null);
+    const [menuOpen, setMenuOpen] = useState(false);
 
-const [projects, setProjects] = useState(0);
-const [clients, setClients] = useState(0);
-const [designs, setDesigns] = useState(0);
-const [experience, setExperience] = useState(0);
+    const [projects, setProjects] = useState(0);
+    const [clients, setClients] = useState(0);
+    const [designs, setDesigns] = useState(0);
+    const [experience, setExperience] = useState(0);
 
-    useEffect(() => {
-
-    const service =
-        document.getElementById('quoteService');
-
-    const price =
-        document.getElementById('quotePrice');
-
-        const loadingTimer = setTimeout(() => {
-    setLoading(false);
-}, 1800);
-
-    if (service) {
-
-        service.addEventListener('change', () => {
-
-            const value = service.value;
-
-            price.innerHTML =
-                `Estimated Price: JMD ${value}+`;
-
-                
-        });
-    }
-
-/* SCROLL REVEAL */
-
-const reveals =
-    document.querySelectorAll(
-        '.pricing-card, .package-card, .portfolio-card, .testimonial-card, .stat-box'
-    );
-
-const observer =
-    new IntersectionObserver((entries) => {
-
-        entries.forEach((entry) => {
-
-            if (entry.isIntersecting) {
-
-                entry.target.classList.add('show');
-
-            }
-        });
-
-    }, {
-        threshold: 0.15
+    const [mousePosition, setMousePosition] = useState({
+        x: 0,
+        y: 0
     });
 
-reveals.forEach((el) => {
-    observer.observe(el);
-});
+    useEffect(() => {
+        const service = document.getElementById('quoteService');
+        const price = document.getElementById('quotePrice');
 
-/* COUNTER ANIMATION */
+        const loadingTimer = setTimeout(() => {
+            setLoading(false);
+        }, 1800);
 
-let projectCount = 0;
-let clientCount = 0;
-let designCount = 0;
-let experienceCount = 0;
-
-const counter =
-    setInterval(() => {
-
-        if (projectCount < 500) {
-            projectCount += 10;
-            setProjects(projectCount);
+        if (service && price) {
+            service.addEventListener('change', () => {
+                const value = service.value;
+                price.innerHTML = `Estimated Price: JMD ${value}+`;
+            });
         }
 
-        if (clientCount < 300) {
-            clientCount += 5;
-            setClients(clientCount);
-        }
+        const reveals = document.querySelectorAll(
+            '.pricing-card, .package-card, .portfolio-card, .testimonial-card, .stat-box'
+        );
 
-        if (designCount < 1000) {
-            designCount += 20;
-            setDesigns(designCount);
-        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        }, {
+            threshold: 0.15
+        });
 
-        if (experienceCount < 5) {
-            experienceCount += 1;
-            setExperience(experienceCount);
-        }
+        reveals.forEach((el) => {
+            observer.observe(el);
+        });
 
-    }, 30);
+        let projectCount = 0;
+        let clientCount = 0;
+        let designCount = 0;
+        let experienceCount = 0;
 
-return () => {
-    clearInterval(counter);
-    clearTimeout(loadingTimer);
-};
+        const counter = setInterval(() => {
+            if (projectCount < 500) {
+                projectCount += 10;
+                setProjects(projectCount);
+            }
 
-}, []);
+            if (clientCount < 300) {
+                clientCount += 5;
+                setClients(clientCount);
+            }
+
+            if (designCount < 1000) {
+                designCount += 20;
+                setDesigns(designCount);
+            }
+
+            if (experienceCount < 5) {
+                experienceCount += 1;
+                setExperience(experienceCount);
+            }
+        }, 30);
+
+        return () => {
+            clearInterval(counter);
+            clearTimeout(loadingTimer);
+        };
+    }, []);
+
+    useEffect(() => {
+        const moveMouse = (e) => {
+            setMousePosition({
+                x: e.clientX,
+                y: e.clientY
+            });
+        };
+
+        const closeMenu = (e) => {
+            if (
+                !e.target.closest('.nav-links') &&
+                !e.target.closest('.hamburger')
+            ) {
+                setMenuOpen(false);
+            }
+        };
+
+        window.addEventListener('mousemove', moveMouse);
+        window.addEventListener('click', closeMenu);
+
+        return () => {
+            window.removeEventListener('mousemove', moveMouse);
+            window.removeEventListener('click', closeMenu);
+        };
+    }, []);
 
     const sendEmail = (e) => {
-
         e.preventDefault();
 
         emailjs.sendForm(
@@ -127,146 +129,80 @@ return () => {
             form.current,
             'cYdwRQ8U-EiS7Q_A6'
         )
-
             .then(() => {
-
                 alert('Message Sent Successfully!');
-
                 form.current.reset();
-
+                setShowModal(false);
             })
-
             .catch((error) => {
-
                 console.log(error);
-
                 alert(error.text);
-
             });
     };
 
-const [mousePosition, setMousePosition] = useState({
-    x: 0,
-    y: 0
-});
-
-useEffect(() => {
-
-    const moveMouse = (e) => {
-
-        setMousePosition({
-            x: e.clientX,
-            y: e.clientY
-        });
-
-    };
-
-    window.addEventListener('mousemove', moveMouse);
-
-const closeMenu = (e) => {
-
-    if (
-        !e.target.closest('.nav-links') &&
-        !e.target.closest('.hamburger')
-    ) {
-        setMenuOpen(false);
-    }
-};
-
-window.addEventListener('click', closeMenu);
-
-    return () => {
-
-    window.removeEventListener(
-        'mousemove',
-        moveMouse
-    );
-
-    window.removeEventListener(
-        'click',
-        closeMenu
-    );
-};
-}, []);
-
     return (
-        
-
         <>
+            {loading && (
+                <div className="loader">
+                    <h1>ProSolutionsJA</h1>
+                    <p>Loading Professional Solutions...</p>
+                </div>
+            )}
 
-        {loading && (
-    <div className="loader">
-        <h1>ProSolutionsJA</h1>
-        <p>Loading Professional Solutions...</p>
-    </div>
-)}
+            <div
+                className="custom-cursor"
+                style={{
+                    left: mousePosition.x,
+                    top: mousePosition.y
+                }}
+            ></div>
 
-        <div
-  className="custom-cursor"
-  style={{
-    left: mousePosition.x,
-    top: mousePosition.y
-  }}
-></div>
-
-        <div
-    className="mouse-glow"
-    style={{
-        left: mousePosition.x,
-        top: mousePosition.y
-    }}
-></div>
+            <div
+                className="mouse-glow"
+                style={{
+                    left: mousePosition.x,
+                    top: mousePosition.y
+                }}
+            ></div>
 
             <div className="scroll-progress"></div>
 
             <div className="particles">
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-    <span></span>
-</div>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
 
             {/* NAVBAR */}
 
             <nav className="navbar">
-
-                <h1 className="logo">
-                    ProSolutionsJA
-                </h1>
+                <h1 className="logo">ProSolutionsJA</h1>
 
                 <div
-    className="hamburger"
-    onClick={() =>
-        setMenuOpen(!menuOpen)
-    }
->
-    ☰
-</div>
+                    className="hamburger"
+                    onClick={() => setMenuOpen(!menuOpen)}
+                >
+                    ☰
+                </div>
+
                 <ul className={`nav-links ${menuOpen ? 'active' : ''}`}>
                     <li><a href="#home">Home</a></li>
-
                     <li><a href="#services">Services</a></li>
-
                     <li><a href="#portfolio">Portfolio</a></li>
-
                     <li><a href="#contact">Contact</a></li>
-
                 </ul>
-
             </nav>
 
             {/* HERO */}
 
             <section className="hero" id="home">
-
                 <div className="overlay">
-
                     <h2>PROFESSIONAL</h2>
-
                     <h1>SOLUTIONS</h1>
 
                     <p>
@@ -276,83 +212,79 @@ window.addEventListener('click', closeMenu);
                         your business stand out.
                     </p>
 
-                    {selectedImage && (
-    <div
-        className="image-modal"
-        onClick={() => setSelectedImage(null)}
-    >
-        <img
-            src={selectedImage}
-            alt="Portfolio Preview"
-        />
-    </div>
-)}
-<>
-  <button
-    className="cta-button"
-   onClick={() => setShowModal(true)}
-  >
-    Get Started
-  </button>
+                    <button
+                        className="cta-button"
+                        onClick={() => setShowModal(true)}
+                    >
+                        Get Started
+                    </button>
 
-  {showModal && (
-    <div className="modal-overlay">
-      <div className="quote-modal">
+                    {showModal && (
+                        <div className="modal-overlay">
+                            <div className="quote-modal">
 
-        <button
-          className="close-modal"
-          onClick={() => setShowModal(false)}
-        >
-          ×
-        </button>
+                                <button
+                                    type="button"
+                                    className="modal-close-btn"
+                                    onClick={() => setShowModal(false)}
+                                >
+                                    Close
+                                </button>
 
-        <h2>Request A Quote</h2>
+                                <h2>Request A Quote</h2>
 
-        <input
-          type="text"
-          placeholder="Your Name"
-        />
+                                <form
+                                    ref={form}
+                                    onSubmit={sendEmail}
+                                    className="modal-form"
+                                >
+                                    <input
+                                        type="text"
+                                        name="user_name"
+                                        placeholder="Your Name"
+                                        required
+                                    />
 
-        <input
-          type="email"
-          placeholder="Your Email"
-        />
+                                    <input
+                                        type="email"
+                                        name="user_email"
+                                        placeholder="Your Email"
+                                        required
+                                    />
 
-        <select>
-          <option>Select A Service</option>
-          <option>Website Design</option>
-          <option>Logo Design</option>
-          <option>Flyer Design</option>
-          <option>Business Cards</option>
-          <option>Social Media Visuals</option>
-        </select>
+                                    <select name="service" required>
+                                        <option value="">Select A Service</option>
+                                        <option>Website Design</option>
+                                        <option>Logo Design</option>
+                                        <option>Flyer Design</option>
+                                        <option>Business Cards</option>
+                                        <option>Social Media Visuals</option>
+                                    </select>
 
-        <textarea
-          rows="5"
-          placeholder="Tell us about your project..."
-        ></textarea>
+                                    <textarea
+                                        name="message"
+                                        rows="5"
+                                        placeholder="Tell us about your project..."
+                                        required
+                                    ></textarea>
 
-        <button className="cta-button">
-          Submit Request
-        </button>
+                                    <button className="cta-button" type="submit">
+                                        Submit Request
+                                    </button>
+                                </form>
 
-      </div>
-    </div>
-  )}
-</>
-
+                            </div>
+                        </div>
+                    )}
                 </div>
-
             </section>
 
             {/* SERVICES */}
 
             <section className="services" id="services">
-
                 <h2>OUR SERVICES</h2>
 
                 <div className="service-grid">
-
                     <div className="service-card">
                         <h3>Flyer Design</h3>
                         <p>Professional flyer designs.</p>
@@ -382,19 +314,15 @@ window.addEventListener('click', closeMenu);
                         <h3>Social Media Visuals</h3>
                         <p>Social media graphics.</p>
                     </div>
-
                 </div>
-
             </section>
 
             {/* PRICING */}
 
             <section className="pricing">
-
                 <h2>OUR PRICING</h2>
 
                 <div className="pricing-grid">
-
                     <div className="pricing-card">
                         <h3>Website Creation</h3>
                         <h1>JMD 25,000+</h1>
@@ -424,23 +352,17 @@ window.addEventListener('click', closeMenu);
                         <h3>Social Media Visuals</h3>
                         <h1>JMD 2,000+</h1>
                     </div>
-
                 </div>
-
             </section>
 
             {/* PACKAGE DEALS */}
 
             <section className="packages">
-
                 <h2>PACKAGE DEALS</h2>
 
                 <div className="packages-grid">
-
                     <div className="package-card">
-
                         <h3>Starter Pack</h3>
-
                         <h1>JMD 12,000</h1>
 
                         <ul>
@@ -448,13 +370,10 @@ window.addEventListener('click', closeMenu);
                             <li>Business Card</li>
                             <li>2 Social Media Posts</li>
                         </ul>
-
                     </div>
 
                     <div className="package-card featured-package">
-
                         <h3>Business Boost Pack</h3>
-
                         <h1>JMD 25,000</h1>
 
                         <ul>
@@ -462,13 +381,10 @@ window.addEventListener('click', closeMenu);
                             <li>Flyer Design</li>
                             <li>Business Card</li>
                         </ul>
-
                     </div>
 
                     <div className="package-card">
-
                         <h3>Brand Growth Pack</h3>
-
                         <h1>JMD 45,000</h1>
 
                         <ul>
@@ -476,343 +392,243 @@ window.addEventListener('click', closeMenu);
                             <li>10 Social Media Posts</li>
                             <li>Banner Design</li>
                         </ul>
-
                     </div>
-
                 </div>
-
             </section>
 
             {/* PORTFOLIO */}
 
             <section className="portfolio" id="portfolio">
-
                 <h2>OUR PORTFOLIO</h2>
 
                 <div className="portfolio-grid">
+                    <div className="portfolio-card">
+                        <img
+                            src={championsleague}
+                            alt=""
+                            onClick={() => setSelectedImage(championsleague)}
+                        />
+                    </div>
 
-    <div className="portfolio-card">
+                    <div className="portfolio-card">
+                        <img
+                            src={worldcup}
+                            alt=""
+                            onClick={() => setSelectedImage(worldcup)}
+                        />
+                    </div>
 
-        <img
-            src={championsleague}
-            alt=""
-            onClick={() =>
-                setSelectedImage(championsleague)
-            }
-        />
+                    <div className="portfolio-card">
+                        <img
+                            src={kartel}
+                            alt=""
+                            onClick={() => setSelectedImage(kartel)}
+                        />
+                    </div>
 
-    </div>
+                    <div className="portfolio-card">
+                        <img
+                            src={wedding}
+                            alt=""
+                            onClick={() => setSelectedImage(wedding)}
+                        />
+                    </div>
 
-    <div className="portfolio-card">
+                    <div className="portfolio-card">
+                        <img
+                            src={resume}
+                            alt=""
+                            onClick={() => setSelectedImage(resume)}
+                        />
+                    </div>
 
-        <img
-            src={worldcup}
-            alt=""
-            onClick={() =>
-                setSelectedImage(worldcup)
-            }
-        />
-
-    </div>
-
-    <div className="portfolio-card">
-
-        <img
-            src={kartel}
-            alt=""
-            onClick={() =>
-                setSelectedImage(kartel)
-            }
-        />
-
-    </div>
-
-    <div className="portfolio-card">
-
-        <img
-            src={wedding}
-            alt=""
-            onClick={() =>
-                setSelectedImage(wedding)
-            }
-        />
-
-    </div>
-
-    <div className="portfolio-card">
-
-        <img
-            src={resume}
-            alt=""
-            onClick={() =>
-                setSelectedImage(resume)
-            }
-        />
-
-    </div>
-
-    <div className="portfolio-card">
-
-        <img
-            src={portfolio}
-            alt=""
-            onClick={() =>
-                setSelectedImage(portfolio)
-            }
-        />
-
-    </div>
-
-</div>
-
+                    <div className="portfolio-card">
+                        <img
+                            src={portfolio}
+                            alt=""
+                            onClick={() => setSelectedImage(portfolio)}
+                        />
+                    </div>
+                </div>
             </section>
 
             {/* STATS */}
 
             <section className="stats">
+                <div className="stat-box">
+                    <h1>{projects}+</h1>
+                    <p>Projects Completed</p>
+                </div>
 
-    <div className="stat-box">
-        <h1>{projects}+</h1>
-        <p>Projects Completed</p>
-    </div>
+                <div className="stat-box">
+                    <h1>{clients}+</h1>
+                    <p>Happy Clients</p>
+                </div>
 
-    <div className="stat-box">
-        <h1>{clients}+</h1>
-        <p>Happy Clients</p>
-    </div>
+                <div className="stat-box">
+                    <h1>{designs}+</h1>
+                    <p>Designs Created</p>
+                </div>
 
-    <div className="stat-box">
-        <h1>{designs}+</h1>
-        <p>Designs Created</p>
-    </div>
+                <div className="stat-box">
+                    <h1>{experience}+</h1>
+                    <p>Years Experience</p>
+                </div>
+            </section>
 
-    <div className="stat-box">
-        <h1>{experience}+</h1>
-        <p>Years Experience</p>
-    </div>
-
-</section>
             {/* TESTIMONIALS */}
 
             <section className="testimonials">
-
                 <h2>CLIENT REVIEWS</h2>
 
                 <div className="testimonials-grid">
+                    <div className="testimonial-card">
+                        <p>“Professional and creative service.”</p>
+                        <h3>- Jason M.</h3>
+                    </div>
 
-    <div className="testimonial-card">
-        <p>
-            “Professional and creative service.”
-        </p>
-        <h3>- Jason M.</h3>
-    </div>
+                    <div className="testimonial-card featured-testimonial">
+                        <p>“Excellent website and branding.”</p>
+                        <h3>- Samantha W.</h3>
+                    </div>
 
-    <div className="testimonial-card featured-testimonial">
-        <p>
-            “Excellent website and branding.”
-        </p>
-        <h3>- Samantha W.</h3>
-    </div>
+                    <div className="testimonial-card">
+                        <p>“Very fast delivery and quality.”</p>
+                        <h3>- Kevin R.</h3>
+                    </div>
 
-    <div className="testimonial-card">
-        <p>
-            “Very fast delivery and quality.”
-        </p>
-        <h3>- Kevin R.</h3>
-    </div>
+                    <div className="testimonial-card">
+                        <p>“Completely transformed my business visuals.”</p>
+                        <h3>- Alicia T.</h3>
+                    </div>
 
-    <div className="testimonial-card">
-        <p>
-            “Completely transformed my business visuals.”
-        </p>
-        <h3>- Alicia T.</h3>
-    </div>
+                    <div className="testimonial-card">
+                        <p>“The website exceeded my expectations.”</p>
+                        <h3>- Marcus D.</h3>
+                    </div>
 
-    <div className="testimonial-card">
-        <p>
-            “The website exceeded my expectations.”
-        </p>
-        <h3>- Marcus D.</h3>
-    </div>
+                    <div className="testimonial-card">
+                        <p>“Professional communication and amazing designs.”</p>
+                        <h3>- Danielle P.</h3>
+                    </div>
 
-    <div className="testimonial-card">
-        <p>
-            “Professional communication and amazing designs.”
-        </p>
-        <h3>- Danielle P.</h3>
-    </div>
+                    <div className="testimonial-card">
+                        <p>“Fast turnaround and premium quality work.”</p>
+                        <h3>- Ricardo S.</h3>
+                    </div>
 
-    <div className="testimonial-card">
-        <p>
-            “Fast turnaround and premium quality work.”
-        </p>
-        <h3>- Ricardo S.</h3>
-    </div>
-
-    <div className="testimonial-card">
-        <p>
-            “Best branding experience I’ve had.”
-        </p>
-        <h3>- Naomi L.</h3>
-    </div>
-
-</div>
-
+                    <div className="testimonial-card">
+                        <p>“Best branding experience I’ve had.”</p>
+                        <h3>- Naomi L.</h3>
+                    </div>
+                </div>
             </section>
 
             {/* QUOTE CALCULATOR */}
 
             <section className="quote-calculator">
-
                 <h2>INSTANT QUOTE ESTIMATOR</h2>
 
                 <div className="calculator-box">
-
                     <select id="quoteService">
-
-                        <option value="">
-                            Select A Service
-                        </option>
-
-                        <option value="4000">
-                            Poster Creation
-                        </option>
-
-                        <option value="10000">
-                            Logo & Brand Design
-                        </option>
-
-                        <option value="2500">
-                            Business Cards
-                        </option>
-
-                        <option value="4000">
-                            Cover Art Designs
-                        </option>
-
-                        <option value="25000">
-                            Website Creation
-                        </option>
-
-                        <option value="2000">
-                            Social Media Visuals
-                        </option>
-
+                        <option value="">Select A Service</option>
+                        <option value="4000">Poster Creation</option>
+                        <option value="10000">Logo & Brand Design</option>
+                        <option value="2500">Business Cards</option>
+                        <option value="4000">Cover Art Designs</option>
+                        <option value="25000">Website Creation</option>
+                        <option value="2000">Social Media Visuals</option>
                     </select>
 
                     <h1 id="quotePrice">
                         Estimated Price: JMD 0
                     </h1>
-
                 </div>
-
             </section>
 
-            {/* CONTACT */}
+{/* CONTACT */}
 
-           <section id="contact" className="contact">
+<section id="contact" className="contact">
 
-                <h2>CONTACT US</h2>
+    <h2>CONTACT US</h2>
 
-                <p>
-                    Ready to elevate your brand?
-                    Send us a message today.
-                </p>
+   <div className="contact-intro">
 
-                <form
-                    ref={form}
-                    onSubmit={sendEmail}
-                    className="contact-form"
-                >
+    <h3>Let's Build Something Amazing Together</h3>
 
-                    <div className="input-group">
+    <p>
+        Whether you need a professional website,
+        eye-catching graphics, branding solutions,
+        or marketing materials, we're ready to help
+        bring your vision to life.
+    </p>
 
-                        <input
-                            type="text"
-                            name="user_name"
-                            id="user_name"
-                            required
-                        />
+</div>
 
-                        <label htmlFor="user_name">
-                            Your Name
-                        </label>
+    <form
+        ref={form}
+        onSubmit={sendEmail}
+        className="contact-form"
+    >
+        <div className="input-group">
+            <input
+                type="text"
+                name="user_name"
+                id="user_name"
+                required
+            />
 
-                    </div>
+            <label htmlFor="user_name">
+                Your Name
+            </label>
+        </div>
 
-                    <div className="input-group">
+        <div className="input-group">
+            <input
+                type="email"
+                name="user_email"
+                id="user_email"
+                required
+            />
 
-                        <input
-                            type="email"
-                            name="user_email"
-                            id="user_email"
-                            required
-                        />
+            <label htmlFor="user_email">
+                Your Email
+            </label>
+        </div>
 
-                        <label htmlFor="user_email">
-                            Your Email
-                        </label>
+        <div className="input-group">
+            <select name="service" required>
+                <option value="">Select A Service</option>
+                <option>Flyer Design</option>
+                <option>Logo Design</option>
+                <option>Website Design</option>
+                <option>Cover Art</option>
+                <option>Business Cards</option>
+            </select>
+        </div>
 
-                    </div>
+        <div className="input-group">
+            <textarea
+                name="message"
+                id="message"
+                rows="6"
+                required
+            ></textarea>
 
-                    <div className="input-group">
+            <label htmlFor="message">
+                Tell us about your project
+            </label>
+        </div>
 
-                        <select
-                            name="service"
-                            required
-                        >
+        <button
+            type="submit"
+            className="contact-submit-btn"
+        >
+            Request Quote
+        </button>
+    </form>
 
-                            <option value="">
-                                Select A Service
-                            </option>
-
-                            <option>
-                                Flyer Design
-                            </option>
-
-                            <option>
-                                Logo Design
-                            </option>
-
-                            <option>
-                                Website Design
-                            </option>
-
-                            <option>
-                                Cover Art
-                            </option>
-
-                            <option>
-                                Business Cards
-                            </option>
-
-                        </select>
-
-                    </div>
-
-                    <div className="input-group">
-
-                        <textarea
-                            name="message"
-                            id="message"
-                            rows="6"
-                            required
-                        ></textarea>
-
-                        <label htmlFor="message">
-                            Tell us about your project
-                        </label>
-
-                    </div>
-
-                    <button type="submit">
-                        Request Quote
-                    </button>
-
-                </form>
-
-            </section>
-
+</section>
             {/* FLOATING WHATSAPP */}
 
             <a
@@ -826,41 +642,45 @@ window.addEventListener('click', closeMenu);
 
             {/* FOOTER */}
 
-            <footer className="footer">
+ <footer className="footer">
 
-                <h1>ProSolutionsJA</h1>
+    <h1>ProSolutionsJA</h1>
+ <p>
+        Professional Graphic Design,
+        Branding, Websites &
+        Digital Solutions
+    </p>
 
-                <p>
-                    Professional Graphic Design,
-                    Branding, Websites &
-                    Digital Solutions
-                </p>
+    <div className="footer-contact">
 
-                <div className="footer-links">
+        <p>📧 ProSolutionsJA@outlook.com</p>
+        <p>📱 +1 (876) 519-5900</p>
+        <p>📸 @ProSolutionsJA</p>
+        <p>🌍 Services Available Worldwide</p>
 
-                    <a href="#home">Home</a>
+    </div>
 
-                    <a href="#services">Services</a>
+    <div className="footer-links">
+        <a href="#home">Home</a>
+        <a href="#services">Services</a>
+        <a href="#portfolio">Portfolio</a>
+        <a href="#contact">Contact</a>
+    </div>
 
-                    <a href="#portfolio">Portfolio</a>
+</footer>
 
-                    <a href="#contact">Contact</a>
-
+            {selectedImage && (
+                <div
+                    className="image-modal"
+                    onClick={() => setSelectedImage(null)}
+                >
+                    <img
+                        src={selectedImage}
+                        alt="Portfolio Preview"
+                    />
                 </div>
-
-                <p className="copyright">
-                    © 2026 ProSolutionsJA.
-                    All Rights Reserved.
-                </p>
-
-            </footer>
-
-           
-
+            )}
         </>
-
-        
-
     );
 }
 
